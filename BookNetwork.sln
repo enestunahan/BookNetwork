@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{88AA37E1-4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookNetwork.API", "src\Presentation\BookNetwork.API\BookNetwork.API.csproj", "{569F0B89-7D71-41D5-A983-5EFF5A3976DF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookNetwork.Infrastructure", "src\Infrastructure\BookNetwork.Infrastructure\BookNetwork.Infrastructure.csproj", "{1969415F-82FC-4C53-809A-C2026AC56102}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,7 @@ Global
 		{38565E91-AE25-4C24-93EC-EA3FBBCBE17D} = {E5027922-9C91-47BB-B562-0FC18D89D001}
 		{06C39B94-524A-496A-AC0C-6A19DA7F6BDE} = {9ED27589-2E1D-4A9D-A132-716E15896077}
 		{569F0B89-7D71-41D5-A983-5EFF5A3976DF} = {D138B404-136F-477C-823E-ED7AF6C07B24}
+		{1969415F-82FC-4C53-809A-C2026AC56102} = {9ED27589-2E1D-4A9D-A132-716E15896077}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{881B9F6A-782F-4187-80C5-7D65C588B5D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -52,5 +55,9 @@ Global
 		{569F0B89-7D71-41D5-A983-5EFF5A3976DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{569F0B89-7D71-41D5-A983-5EFF5A3976DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{569F0B89-7D71-41D5-A983-5EFF5A3976DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1969415F-82FC-4C53-809A-C2026AC56102}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1969415F-82FC-4C53-809A-C2026AC56102}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1969415F-82FC-4C53-809A-C2026AC56102}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1969415F-82FC-4C53-809A-C2026AC56102}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
