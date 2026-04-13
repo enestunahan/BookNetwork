@@ -30,7 +30,7 @@ internal static class SeedData
             FirstName = "Sabahattin",
             LastName = "Ali",
             Biography = "Türk edebiyatının unutulmaz yazarlarından; toplumsal ve psikolojik derinliğiyle bilinir.",
-            BirthDate = new DateTime(1907, 2, 25)
+            BirthDate = new DateTime(1907, 2, 25, 0, 0, 0, DateTimeKind.Utc)
         },
         new()
         {
@@ -38,7 +38,7 @@ internal static class SeedData
             FirstName = "Orhan",
             LastName = "Pamuk",
             Biography = "Nobel ödüllü yazar; İstanbul ve kimlik temalarıyla öne çıkar.",
-            BirthDate = new DateTime(1952, 6, 7)
+            BirthDate = new DateTime(1952, 6, 7, 0, 0, 0, DateTimeKind.Utc)
         },
         new()
         {
@@ -46,7 +46,7 @@ internal static class SeedData
             FirstName = "Reşat Nuri",
             LastName = "Güntekin",
             Biography = "Anadolu insanını ve idealizmi merkeze alan klasik romanların yazarı.",
-            BirthDate = new DateTime(1889, 11, 25)
+            BirthDate = new DateTime(1889, 11, 25, 0, 0, 0, DateTimeKind.Utc)
         }
     ];
 

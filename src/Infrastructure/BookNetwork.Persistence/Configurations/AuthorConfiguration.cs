@@ -24,7 +24,8 @@ public sealed class AuthorConfiguration : IEntityTypeConfiguration<Author>
         builder.Property(a => a.Biography)
             .HasMaxLength(1000);
 
-        builder.Property(a => a.BirthDate);
+        builder.Property(a => a.BirthDate)
+            .HasColumnType("date");
 
         builder.HasMany(a => a.BookAuthors)
             .WithOne(ba => ba.Author)
