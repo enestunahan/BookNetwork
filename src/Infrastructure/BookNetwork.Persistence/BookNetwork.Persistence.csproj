@@ -18,6 +18,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\\..\\Core\\BookNetwork.Domain\\BookNetwork.Domain.csproj" />
+        <ProjectReference Include="..\\..\\Core\\BookNetwork.Application\\BookNetwork.Application.csproj" />
     </ItemGroup>
 
 </Project>

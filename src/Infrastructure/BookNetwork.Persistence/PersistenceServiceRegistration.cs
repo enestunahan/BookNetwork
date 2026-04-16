@@ -1,4 +1,8 @@
+using BookNetwork.Application.Common.Repositories;
+using BookNetwork.Application.Common.Repositories.Books;
 using BookNetwork.Persistence.Contexts;
+using BookNetwork.Persistence.Repositories.Books;
+using BookNetwork.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +21,11 @@ public static class PersistenceServiceRegistration
             options.UseNpgsql(connectionString,
                 sqlOptions => sqlOptions.MigrationsAssembly(typeof(BookNetworkDbContext).Assembly.FullName));
         });
+
+        services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
+        services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
+        services.AddScoped<IBookReadRepository, BookReadRepository>();
+        services.AddScoped<IBookWriteRepository, BookWriteRepository>();
 
         return services;
     }
