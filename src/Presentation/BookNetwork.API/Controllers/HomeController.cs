@@ -9,6 +9,7 @@ namespace BookNetwork.API.Controllers;
 public sealed class HomeController(ISender sender) : ControllerBase
 {
     [HttpGet("books")]
+    // todo bu alt satırdaki kod ne işe yarıyor araştır bakalım
     [ProducesResponseType(typeof(IReadOnlyList<HomePageBookDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IReadOnlyList<HomePageBookDto>>> GetBooks(CancellationToken cancellationToken)
     {
