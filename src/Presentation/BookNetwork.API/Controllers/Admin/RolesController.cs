@@ -1,3 +1,4 @@
+using BookNetwork.API.Authorization;
 using BookNetwork.Application.Features.Roles.Commands.AssignRoleToUser;
 using BookNetwork.Application.Features.Roles.Commands.CreateRole;
 using BookNetwork.Application.Features.Roles.Queries.GetRoles;
@@ -9,10 +10,11 @@ namespace BookNetwork.API.Controllers.Admin;
 
 [ApiController]
 [Route("api/admin/roles")]
-[Authorize(Roles = "Admin")]
+[Authorize(Policy = AuthPolicies.MinEditor)]
 public sealed class RolesController(ISender sender) : ControllerBase
 {
     [HttpGet]
+    [Authorize(Policy = AuthPolicies.MinAdmin)]
     [ProducesResponseType(typeof(IReadOnlyList<RoleDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IReadOnlyList<RoleDto>>> GetRoles(CancellationToken cancellationToken)
     {
@@ -21,6 +23,7 @@ public sealed class RolesController(ISender sender) : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policy = AuthPolicies.MinAdmin)]
     [ProducesResponseType(typeof(CreateRoleResponse), StatusCodes.Status200OK)]
     public async Task<ActionResult<CreateRoleResponse>> CreateRole(
         [FromBody] CreateRoleCommand command,

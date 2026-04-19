@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -57,6 +58,14 @@ public sealed class JwtTokenService(
             new(ClaimTypes.Email, user.Email ?? string.Empty),
             new("nameSurname", user.NameSurname)
         };
+
+        if (user.BirthDate.HasValue)
+        {
+            claims.Add(new Claim(
+                ClaimTypes.DateOfBirth,
+                user.BirthDate.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                ClaimValueTypes.Date));
+        }
 
         var roles = await userManager.GetRolesAsync(user);
         claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));

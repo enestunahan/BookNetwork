@@ -9,6 +9,7 @@ public sealed class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
     public void Configure(EntityTypeBuilder<AppUser> builder)
     {
         builder.Property(u => u.NameSurname).HasMaxLength(150).IsRequired();
+        builder.Property(u => u.BirthDate).HasColumnType("date");
         builder.Property(u => u.RefreshToken).HasMaxLength(500);
     }
 }

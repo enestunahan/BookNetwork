@@ -4,6 +4,7 @@ using BookNetwork.Application;
 using BookNetwork.Infrastructure;
 using BookNetwork.Persistence;
 using BookNetwork.Persistence.Contexts;
+using BookNetwork.Persistence.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,8 +15,10 @@ builder.Services.AddApplication();
 builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddJwtAuthentication(builder.Configuration);
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorizationPolicies();
 
 var app = builder.Build();
 
@@ -23,6 +26,7 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<BookNetworkDbContext>();
     await dbContext.Database.EnsureCreatedAsync();
+    await IdentitySeeder.SeedAsync(scope.ServiceProvider);
 }
 
 if (app.Environment.IsDevelopment())

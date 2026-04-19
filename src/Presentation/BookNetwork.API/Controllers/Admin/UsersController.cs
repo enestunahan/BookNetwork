@@ -1,3 +1,4 @@
+using BookNetwork.API.Authorization;
 using BookNetwork.Application.Features.Auth.Commands.Register;
 using BookNetwork.Application.Features.Users.Commands.AssignClaim;
 using BookNetwork.Application.Features.Users.Queries.GetUserClaims;
@@ -10,7 +11,7 @@ namespace BookNetwork.API.Controllers.Admin;
 
 [ApiController]
 [Route("api/admin/users")]
-[Authorize(Roles = "Admin")]
+[Authorize(Policy = AuthPolicies.MinAdmin)]
 public sealed class UsersController(ISender sender) : ControllerBase
 {
     [HttpGet]

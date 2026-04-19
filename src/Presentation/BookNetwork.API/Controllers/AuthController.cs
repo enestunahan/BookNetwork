@@ -10,6 +10,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookNetwork.API.Controllers;
 
+// TODO(dynamic-authz): DB-driven RBAC / endpoint-bazlı yetkilendirmeye geçiş.
+//  Şu an policy'ler statik ([Authorize(Policy = AuthPolicies.MinX)]).
+//  Planlanan akış (karar verildiğinde uygulanacak):
+//   1) SyncEndpointsCommand: reflection ile tüm controller+action'ları Endpoints tablosuna yaz (Code = "Auth.Login" vs.).
+//   2) Admin panel: RoleEndpoints eşlemesi için CRUD endpointleri (POST/DELETE /api/admin/roles/{roleId}/endpoints).
+//   3) Custom IAuthorizationPolicyProvider + DynamicPermissionHandler: [Authorize("Auth.Login")] gördüğünde DB'den role-endpoint eşleşmesini okusun.
+//   4) IMemoryCache ile role-endpoint map'ini cache'le, rol/endpoint değişiminde invalidate et.
+//   5) "Admin" rolü super-admin: her zaman pass (DB check atla).
+//   6) Mevcut statik [Authorize(Policy = AuthPolicies.MinX)] kullanımlarını kademeli olarak endpoint code'una taşı.
+//  Detaylar: docs/authorization.md §10.
+
 [ApiController]
 [Route("api/auth")]
 public sealed class AuthController(ISender sender) : ControllerBase

@@ -1,3 +1,4 @@
+using BookNetwork.API.Authorization;
 using BookNetwork.Application.Features.Books.Queries.GetBooksForAdmin;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -7,7 +8,7 @@ namespace BookNetwork.API.Controllers.Admin;
 
 [ApiController]
 [Route("api/adminBooks")]
-[Authorize(Roles = "Admin")]
+[Authorize(Policy = AuthPolicies.MinEditor)]
 public sealed class AdminBooksController(ISender sender) : ControllerBase
 {
     [HttpGet("books")]

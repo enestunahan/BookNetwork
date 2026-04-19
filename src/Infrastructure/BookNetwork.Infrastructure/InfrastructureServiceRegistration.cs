@@ -12,6 +12,7 @@ public static class InfrastructureServiceRegistration
         services.Configure<JwtTokenOptions>(configuration.GetSection(JwtTokenOptions.SectionName));
 
         services.AddScoped<ITokenService, JwtTokenService>();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
 
         return services;
     }

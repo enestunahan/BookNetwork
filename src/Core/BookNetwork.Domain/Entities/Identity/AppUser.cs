@@ -5,6 +5,7 @@ namespace BookNetwork.Domain.Entities.Identity;
 public class AppUser : IdentityUser<string>
 {
     public string NameSurname { get; set; } = string.Empty;
+    public DateTime? BirthDate { get; set; }
 
     public string? RefreshToken { get; set; }
     public DateTime? RefreshTokenEndDate { get; set; }
