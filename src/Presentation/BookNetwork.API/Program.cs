@@ -5,6 +5,7 @@ using BookNetwork.Infrastructure;
 using BookNetwork.Persistence;
 using BookNetwork.Persistence.Contexts;
 using BookNetwork.Persistence.Seed;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +26,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<BookNetworkDbContext>();
-    await dbContext.Database.EnsureCreatedAsync();
+    await dbContext.Database.MigrateAsync();
     await IdentitySeeder.SeedAsync(scope.ServiceProvider);
 }
 

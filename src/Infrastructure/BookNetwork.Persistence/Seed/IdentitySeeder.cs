@@ -1,6 +1,7 @@
 using BookNetwork.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace BookNetwork.Persistence.Seed;
 
@@ -23,17 +24,26 @@ public static class IdentitySeeder
     {
         var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
         var userManager = services.GetRequiredService<UserManager<AppUser>>();
+        var logger = services.GetRequiredService<ILoggerFactory>().CreateLogger("IdentitySeeder");
 
         foreach (var roleName in Roles)
         {
             if (await roleManager.RoleExistsAsync(roleName))
                 continue;
 
-            await roleManager.CreateAsync(new AppRole
+            var roleResult = await roleManager.CreateAsync(new AppRole
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = roleName
             });
+
+            if (!roleResult.Succeeded)
+            {
+                var errors = string.Join(" | ", roleResult.Errors.Select(e => $"{e.Code}: {e.Description}"));
+                throw new InvalidOperationException($"Rol oluşturulamadı ({roleName}): {errors}");
+            }
+
+            logger.LogInformation("Seed: rol oluşturuldu → {Role}", roleName);
         }
 
         foreach (var seed in Users)
@@ -51,11 +61,21 @@ public static class IdentitySeeder
                     BirthDate = seed.BirthDate
                 };
 
-                var result = await userManager.CreateAsync(user, DefaultPassword);
-                if (!result.Succeeded)
-                    continue;
+                var createResult = await userManager.CreateAsync(user, DefaultPassword);
+                if (!createResult.Succeeded)
+                {
+                    var errors = string.Join(" | ", createResult.Errors.Select(e => $"{e.Code}: {e.Description}"));
+                    throw new InvalidOperationException($"Kullanıcı oluşturulamadı ({seed.UserName}): {errors}");
+                }
 
-                await userManager.AddToRoleAsync(user, seed.Role);
+                var roleAssign = await userManager.AddToRoleAsync(user, seed.Role);
+                if (!roleAssign.Succeeded)
+                {
+                    var errors = string.Join(" | ", roleAssign.Errors.Select(e => $"{e.Code}: {e.Description}"));
+                    throw new InvalidOperationException($"Rol ataması başarısız ({seed.UserName} → {seed.Role}): {errors}");
+                }
+
+                logger.LogInformation("Seed: kullanıcı oluşturuldu → {UserName} ({Role})", seed.UserName, seed.Role);
             }
             else
             {
@@ -67,10 +87,24 @@ public static class IdentitySeeder
                 }
 
                 if (changed)
-                    await userManager.UpdateAsync(existing);
+                {
+                    var updateResult = await userManager.UpdateAsync(existing);
+                    if (!updateResult.Succeeded)
+                    {
+                        var errors = string.Join(" | ", updateResult.Errors.Select(e => $"{e.Code}: {e.Description}"));
+                        throw new InvalidOperationException($"Kullanıcı güncellenemedi ({seed.UserName}): {errors}");
+                    }
+                }
 
                 if (!await userManager.IsInRoleAsync(existing, seed.Role))
-                    await userManager.AddToRoleAsync(existing, seed.Role);
+                {
+                    var roleAssign = await userManager.AddToRoleAsync(existing, seed.Role);
+                    if (!roleAssign.Succeeded)
+                    {
+                        var errors = string.Join(" | ", roleAssign.Errors.Select(e => $"{e.Code}: {e.Description}"));
+                        throw new InvalidOperationException($"Rol ataması başarısız ({seed.UserName} → {seed.Role}): {errors}");
+                    }
+                }
             }
         }
     }
